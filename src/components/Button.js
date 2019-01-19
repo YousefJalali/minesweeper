@@ -5,7 +5,7 @@ import styled from "styled-components/native";
 const button = props => (
   <TouchableOpacity onPress={props.onPress}>
     <Background color={props.color}>
-      <Title>{props.title}</Title>
+      <Title>{props.title.toUpperCase()}</Title>
     </Background>
   </TouchableOpacity>
 );
@@ -25,7 +25,7 @@ const Title = styled.Text`
   font-family: "Raleway-bold";
   font-size: 30;
   color: white;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 `;
 
 export default button;

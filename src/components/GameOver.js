@@ -97,6 +97,7 @@ class GameOver extends React.Component {
               height: "50%"
             }}
             source={icon}
+            resizeMode="cover"
           />
 
           <Description>

@@ -1,6 +1,9 @@
 import React from "react";
+import { I18nManager } from 'react-native'
 import { Provider } from "react-redux";
 import { createStackNavigator, createAppContainer } from "react-navigation";
+
+I18nManager.allowRTL(false);
 
 import storeConfig from "./src/store/storeConfig";
 const store = storeConfig();

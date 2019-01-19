@@ -8,7 +8,7 @@ export const checkForUncompletedGame = () => {
       .then(res => {
         if (res !== undefined) {
           const parsedRes = JSON.parse(res);
-          console.log(parsedRes.gameEnded);
+          // console.log(parsedRes.gameEnded);
           if (parsedRes.gameEnded === null) {
             dispatch(uncompletedGame());
           } else {
@@ -16,7 +16,10 @@ export const checkForUncompletedGame = () => {
           }
         }
       })
-      .catch(err => alert(err));
+      // .catch(err => alert(err));
+      .catch(() => {
+        return;
+      });
   };
 };
 

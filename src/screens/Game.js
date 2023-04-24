@@ -1,72 +1,68 @@
-import React from "react";
-import { connect } from "react-redux";
-import { ScrollView, TouchableOpacity, Dimensions } from "react-native";
-import styled from "styled-components/native";
-import { StackActions } from "react-navigation";
-import { Ionicons } from "@expo/vector-icons";
+import React from 'react'
+import { connect } from 'react-redux'
+import { ScrollView, TouchableOpacity, Dimensions } from 'react-native'
+import styled from 'styled-components/native'
+import { StackActions } from 'react-navigation'
+import { Ionicons } from '@expo/vector-icons'
 
-import GameOver from "../components/GameOver";
+import GameOver from '../components/GameOver'
 
-import {
-  fieldBuilder,
-  gameStarted,
-  modeFlag
-} from "../store/actions/index";
+import { fieldBuilder, gameStarted, modeFlag } from '../store/actions/index'
 
-import Timer from "../components/Timer";
-import { Layout, Wrapper, SubTitle } from "../components/Layout";
-import Field from "../components/Field";
+import Timer from '../components/Timer'
+import { Layout, Wrapper, SubTitle } from '../components/Layout'
+import Field from '../components/Field'
 
 const DIFFICULTY = {
   easy: {
     h: 9,
-    mines: 10
+    mines: 10,
   },
   medium: {
     h: 16,
-    mines: 40
+    mines: 40,
   },
   hard: {
     h: 30,
-    mines: 99
-  }
-};
+    mines: 99,
+  },
+}
 
 const popAction = StackActions.pop({
-  n: 1
-});
+  n: 1,
+})
 
 class Game extends React.Component {
   constructor(props) {
-    super(props);
-    this.difficulty = DIFFICULTY[this.props.navigation.getParam("difficulty")];
-    this.uncompleted = this.props.navigation.getParam("uncompleted");
+    super(props)
+    this.difficulty = DIFFICULTY[this.props.navigation.getParam('difficulty')]
+    this.uncompleted = this.props.navigation.getParam('uncompleted')
   }
 
   componentDidMount() {
-    this.props.onFieldBuilder(this.difficulty, this.uncompleted);
-    this.props.onGameStarted();
+    this.props.onFieldBuilder(this.difficulty, this.uncompleted)
+    this.props.onGameStarted()
   }
 
   timer = () => {
-    addZero = number => {
-      const digits = Math.floor(Math.log(number) / Math.LN10 + 1);
+    addZero = (number) => {
+      const digits = Math.floor(Math.log(number) / Math.LN10 + 1)
       if (digits <= 1) {
-        return "0" + number;
+        return '0' + number
       } else {
-        return number;
+        return number
       }
-    };
+    }
     const totalSecondsPassed = this.props.timer,
       totalMinutesPassed = Math.floor(totalSecondsPassed / 60),
       minutes = totalMinutesPassed % 60,
-      seconds = totalSecondsPassed % 60;
-    return addZero(minutes) + " : " + addZero(seconds);
-  };
+      seconds = totalSecondsPassed % 60
+    return addZero(minutes) + ' : ' + addZero(seconds)
+  }
 
   onModeFlagHandler = () => {
-    this.props.onModeFlag();
-  };
+    this.props.onModeFlag()
+  }
 
   render() {
     return (
@@ -79,20 +75,20 @@ class Game extends React.Component {
           />
         ) : null}
 
-        <Wrapper height="30%">
+        <Wrapper height='30'>
           {this.props.gameEnded ? (
             <SubTitle>
-              {this.props.gameEnded === "win" ? "WIN" : "BOOM"}
+              {this.props.gameEnded === 'win' ? 'WIN' : 'BOOM'}
             </SubTitle>
           ) : (
             <Nav>
               <TouchableOpacity
                 onPress={() => this.props.navigation.dispatch(popAction)}
               >
-                <Ionicons name="ios-refresh" size={32} color="#3FA7D6" />
+                <Ionicons name='ios-refresh' size={32} color='#3FA7D6' />
               </TouchableOpacity>
               <TouchableOpacity onPress={this.onModeFlagHandler}>
-                <Ionicons name="ios-flag" size={32} color="#F8696B" />
+                <Ionicons name='ios-flag' size={32} color='#F8696B' />
               </TouchableOpacity>
             </Nav>
           )}
@@ -114,58 +110,55 @@ class Game extends React.Component {
           </ScrollView>
         </Grid>
       </Layout>
-    );
+    )
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     gameStarted: state.game.gameStarted,
     gameEnded: state.game.gameEnded,
     triggeredMine: state.game.triggeredMine,
-    timer: state.game.timer
-  };
-};
+    timer: state.game.timer,
+  }
+}
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onFieldBuilder: (difficulty, uncompleted) =>
       dispatch(fieldBuilder(difficulty, uncompleted)),
     onGameStarted: () => dispatch(gameStarted()),
-    onModeFlag: () => dispatch(modeFlag())
-  };
-};
+    onModeFlag: () => dispatch(modeFlag()),
+  }
+}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game)
 
 const Nav = styled.View`
-  width: ${Dimensions.get("window").width};
+  width: ${Dimensions.get('window').width}px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-left: 20;
-  padding-right: 20;
-`;
+  padding-left: 20px;
+  padding-right: 20px;
+`
 
 const Title = styled.Text`
-  font-family: "Raleway-black";
-  font-size: 30;
+  font-family: 'Raleway-black';
+  font-size: 30px;
   color: #707070;
-  margin-bottom: 30;
-`;
+  margin-bottom: 30px;
+`
 
 const Grid = styled.View`
   height: 60%;
   width: 90%;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const TimerWrapper = styled.Text`
-  font-family: "Roboto-light";
-  font-size: 30;
+  font-family: 'Roboto-light';
+  font-size: 30px;
   color: #707070;
-`;
+`

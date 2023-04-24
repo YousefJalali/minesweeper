@@ -1,42 +1,42 @@
-import React from "react";
+import React from 'react'
 import { I18nManager } from 'react-native'
-import { Provider } from "react-redux";
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { Provider } from 'react-redux'
+import { createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 
-I18nManager.allowRTL(false);
+I18nManager.allowRTL(false)
 
-import storeConfig from "./src/store/storeConfig";
-const store = storeConfig();
+import storeConfig from './src/store/storeConfig'
+const store = storeConfig()
 
-import Home from "./src/screens/Home";
-import Game from "./src/screens/Game";
+import Home from './src/screens/Home'
+import Game from './src/screens/Game'
 
 class App extends React.Component {
-
   render() {
     return (
       <Provider store={store}>
         <AppContainer />
       </Provider>
-    );
+    )
   }
 }
 
 const AppNavigator = createStackNavigator(
   {
     Home: Home,
-    Game: Game
+    Game: Game,
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: 'Home',
     defaultNavigationOptions: {
-      header: null
-    }
+      headerShown: false,
+    },
   }
-);
+)
 
-const AppContainer = createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(AppNavigator)
 
 // export default createAppContainer(App);
 
-export default App;
+export default App

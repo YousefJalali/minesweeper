@@ -1,49 +1,49 @@
-import { AsyncStorage } from "react-native";
-import { SET_FIELD, MODE_FLAG } from "./actionTypes";
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { SET_FIELD, MODE_FLAG } from './actionTypes'
 
 export const fieldBuilder = (difficulty, uncompleted) => {
-  return dispatch => {
-    if (uncompleted === "uncompleted") {
-      AsyncStorage.getItem("minesweeper:continue")
-        .then(res => {
+  return (dispatch) => {
+    if (uncompleted === 'uncompleted') {
+      AsyncStorage.getItem('minesweeper:continue')
+        .then((res) => {
           if (res) {
-            const parsedRes = JSON.parse(res);
+            const parsedRes = JSON.parse(res)
             dispatch(
               setField(parsedRes.field, parsedRes.difficulty, parsedRes.timer)
-            );
+            )
           } else {
-            const field = buildField(difficulty);
-            countNeighborsMines(field, difficulty);
-            dispatch(setField(field, difficulty));
+            const field = buildField(difficulty)
+            countNeighborsMines(field, difficulty)
+            dispatch(setField(field, difficulty))
           }
         })
-        .catch(err => alert(err));
+        .catch((err) => alert(err))
     } else {
-      const field = buildField(difficulty);
+      const field = buildField(difficulty)
 
-      countNeighborsMines(field, difficulty);
+      countNeighborsMines(field, difficulty)
 
-      dispatch(setField(field, difficulty));
+      dispatch(setField(field, difficulty))
     }
-  };
-};
+  }
+}
 
 export const setField = (field, difficulty, timer = 0) => {
   return {
     type: SET_FIELD,
     field: field,
     difficulty: difficulty,
-    timer: timer
-  };
-};
+    timer: timer,
+  }
+}
 
 export const modeFlag = () => {
   return {
-    type: MODE_FLAG
-  };
-};
+    type: MODE_FLAG,
+  }
+}
 
-const buildField = difficulty => {
+const buildField = (difficulty) => {
   const field = new Array(difficulty.h * difficulty.h)
     .fill(0)
     .map((cell, i) => {
@@ -52,31 +52,31 @@ const buildField = difficulty => {
         isOpened: false,
         hasFlag: false,
         hasMine: false,
-        neighborMineCount: 0
-      };
-    });
+        neighborMineCount: 0,
+      }
+    })
 
   //mines places
-  const options = [];
+  const options = []
   for (let i = 0; i < field.length; i++) {
-    options.push(i);
+    options.push(i)
   }
 
   // put mines in field
   for (let i = 0; i < difficulty.mines; i++) {
-    const cell = Math.floor(Math.random() * options.length);
-    options.splice(cell, 1);
-    field[cell].hasMine = true;
+    const cell = Math.floor(Math.random() * options.length)
+    options.splice(cell, 1)
+    field[cell].hasMine = true
   }
 
-  return field;
-};
+  return field
+}
 
 const countNeighborsMines = (field, difficulty) => {
-  const diff = difficulty.h;
+  const diff = difficulty.h
 
   for (let cell = 0; cell < field.length; cell++) {
-    let counter = 0;
+    let counter = 0
 
     //left edge
     if (cell % diff === 0) {
@@ -85,7 +85,7 @@ const countNeighborsMines = (field, difficulty) => {
           for (let column = 0; column <= 1; column++) {
             if (cell + row + column > -1 && cell + row + column < diff * diff) {
               if (field[cell + row + column].hasMine) {
-                counter = counter + 1;
+                counter = counter + 1
               }
             }
           }
@@ -99,7 +99,7 @@ const countNeighborsMines = (field, difficulty) => {
           for (let column = -1; column <= 0; column++) {
             if (cell + row + column > -1 && cell + row + column < diff * diff) {
               if (field[cell + row + column].hasMine) {
-                counter = counter + 1;
+                counter = counter + 1
               }
             }
           }
@@ -113,7 +113,7 @@ const countNeighborsMines = (field, difficulty) => {
           for (let column = -1; column <= 1; column++) {
             if (cell + row + column > -1 && cell + row + column < diff * diff) {
               if (field[cell + row + column].hasMine) {
-                counter = counter + 1;
+                counter = counter + 1
               }
             }
           }
@@ -121,7 +121,7 @@ const countNeighborsMines = (field, difficulty) => {
       }
     }
 
-    field[cell].neighborMineCount = counter;
+    field[cell].neighborMineCount = counter
   }
-  return field;
-};
+  return field
+}

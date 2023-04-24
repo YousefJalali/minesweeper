@@ -10,7 +10,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height
 export const Layout = (props) => {
   return (
     <Screen>
-      {/* <Icons size={SCREEN_HEIGHT} d={ICONS.bomb.d} fill='#cccccc' /> */}
+      <Background size={SCREEN_HEIGHT} d={ICONS.bomb.d} fill='#cccccc' />
       {props.children}
     </Screen>
   )
@@ -35,12 +35,12 @@ const Screen = styled.View`
   overflow: hidden;
 `
 
-// const Background = styled(Icons)`
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-//   opacity: 0.2;
-// `
+const Background = styled(Icons)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.5;
+`
 
 export const Title = styled.Text`
   font-family: 'Raleway-black';

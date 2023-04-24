@@ -23,7 +23,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jbygoal.minesweeperapp"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d029e010-1bfa-11e9-9dff-95ee054b91ef"
+      }
     }
   }
 }
